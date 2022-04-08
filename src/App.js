@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+const meals = document.getElementById('meals');
+    getRandomMeal();
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+async function getRandomMeal() {
+    const resp = await fetch("https://www.themealdb.com/api/json/v1/1/random.php");
+    const respData = await resp.json();
+    const randomMeal = respData.meals[0];
+
+    console.log(randomMeal);
+
+
+    addMeal(randomMeal, true);
 }
 
-export default App;
+async function getMealById(id) {
+    const meal = await fetch("https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + id);
+
+
+}
+
+async function getMealBySearch(term) {
+    const meals = await fetch("https://www.themealdb.com/api/json/v1/1/search.php?s=" + term);
+
+}
+
+function addMeal(mealData, random = false) {
+    const meal = document.createElement('div');
+    meal.classList.add('meals' );
+
+    
+    meal.innerHTML = `
+        <div class="meal-header">
+        ${random ? `
+            <span class="random">
+            Random Meals
+        </span>` : ''}
+
+
+            <img src="${mealData.strMealThumb}" alt="${mealData.strMeal}" />
+        </div>
+        <div class="meal-body">
+            <h3>${mealData.strMeal}</h3>
+            <h4>ChecK the instruction below on how to prepare this recipe...</h4>
+            <p>${mealData.strInstructions}</p>
+
+    `;
+
+    meals.appendChild(meal);
+
+}
