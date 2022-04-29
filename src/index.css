@@ -15,7 +15,7 @@ code {
 .container {
   background-color: lightgrey;
   width: 300px;
-  border: 15px solid grey;
+  border: 15px solid rgb(145, 47, 120);
   padding: 50px;
   margin: 20px;
 }
